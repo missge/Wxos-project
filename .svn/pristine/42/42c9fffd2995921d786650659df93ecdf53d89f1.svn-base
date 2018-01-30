@@ -1,0 +1,184 @@
+<template>
+	<div class="ApplyforRefund">
+		<ul class="AFR_content">
+			<li>
+				<div class="OL_title ">
+					<p class="lf">退款类型</p>
+				</div>
+				<div class="AFR_content_bot">
+					<ul class="AFR_btn">
+						<li class="btn_type change_btn">我要退款</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div class="OL_title ">
+					<p class="lf">收货状态</p>
+				</div>
+				<div class="AFR_content_bot">
+					<ul class="AFR_btn">
+						<li class="btn_type " @click="choose(0)" :class="{'change_btn': clicked === 0 }">未收到货</li>
+						<li class="btn_type "  @click="choose(1)" :class="{'change_btn': clicked === 1 }">已收到货</li>
+
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div class="OL_title ">
+					<p class="lf">收货运费</p>
+				</div>
+				<div class="AFR_content_bot">
+					<ul class="AFR_btn">
+						<li class="btn_type " @click="choose1(1)" :class="{'change_btn': clicked1 === 1 }">我来付</li>
+						<li class="btn_type " @click="choose1(0)" :class="{'change_btn': clicked1 === 0 }">商家承担</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div class="OL_title ">
+					<p class="lf">退款原因</p>
+				</div>
+				<div class="AFR_content_bot">
+					<ul class="AFR_btn">
+						<li class="btn_type "@click="choose2(2)" :class="{'change_btn': clicked2 === 2 }">质量原因</li>
+						<li class="btn_type " @click="choose2(0)" :class="{'change_btn': clicked2 === 0 }">不想要了</li>
+   						<li class="btn_type " @click="choose2(1)" :class="{'change_btn': clicked2 === 1 }">不发货</li>
+   						<li class="btn_type " @click="choose2(4)" :class="{'change_btn': clicked2 === 4 }">实物与描述不符</li>
+   						<li class="btn_type " @click="choose2(3)" :class="{'change_btn': clicked2 === 3 }">物流问题</li>
+   						<li class="btn_type " @click="choose2(5)" :class="{'change_btn': clicked2 === 5 }">其他原因</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div class="OL_title ">
+					<p class="lf">退款说明</p>
+				</div>
+				<div class="AFR_content_bot">
+					<textarea class="Refund_Explain" maxrows="10" v-model="ApplyInfo.reMoDesc"  placeholder="200字以内，可选填！">
+					</textarea>
+				</div>
+			</li>
+			<li>
+				<div class="OL_title ">
+					<p class="lf">图片上传</p>
+				</div>
+				<div class="uploader" >
+					<uploader  :src="this.$store.state.localHostUrl+'/uploadImage.json'" @getFileIds="setFileIds" @getClickDisabled="setClickDisabled"></uploader>
+
+				 </div>
+			</li> 
+		</ul>
+		<button :disabled="isShow" class="home_pay SP_btn " v-model="ApplyInfo.reImgId" :class="{ 'disabled' : !clickDisabled }" @click="confirmFn">确认提交 </button>
+	</div>
+</template>
+<script>
+	import {setCookie,getCookie} from './../cookie/cookie.js'
+	import qs from 'qs'
+	import Vue from 'vue'
+	import router from '@/router'
+	import uploader from './uploader.vue'
+	import {Loadmore} from 'mint-ui'
+	export default {
+	data() {
+		return {
+			ApplyInfo:{
+				orderId:this.$route.query.orderId,
+				goodsId:this.$route.query.goodsId,
+				isTakeGoods:'',
+				postAmtStatus:'',
+				reMoReason:'',
+				reMoDesc:'',
+				reImgId:[],
+				attrvalId:this.$route.query.attrvalId
+			},
+			fileIds:'',
+			clicked:0,
+			clicked1:1,
+			clicked2:2,
+			clickDisabled:true,
+			isShow:false
+			
+		}
+	},
+	methods:{
+	    choose (val) {
+	      this.ApplyInfo.isTakeGoods = val
+	      this.clicked = val
+	      console.log( this.ApplyInfo.isTakeGoods)
+	    },
+	    setFileIds(data){
+			this.fileIds = data;
+	    },	
+	    setClickDisabled(bool){
+	    	this.clickDisabled = bool;
+	    },	
+	    choose1 (val) {
+	      this.ApplyInfo.postAmtStatus = val
+	      this.clicked1 = val
+	      console.log(   this.ApplyInfo.postAmtStatus)
+
+	    },
+	    choose2 (val) {
+	      this.ApplyInfo.reMoReason = val
+	      this.clicked2 = val
+	      console.log(   this.ApplyInfo.reMoReason)
+	    },
+	    confirmFn(){
+	    	 this.isShow=true
+	    	if(this.clickDisabled){
+	    	  	this.ApplyInfo.isTakeGoods = this.clicked
+	    	  	this.ApplyInfo.postAmtStatus =  this.clicked1
+         	 	this.ApplyInfo.reMoReason  =  this.clicked2
+				this.ApplyInfo.reImgId = this.fileIds 
+
+		    	var url = this.$store.state.localHostUrl +'/submitRefundInfo.json'
+		      		var data= qs.stringify(this.ApplyInfo)
+		      		var that = this
+
+		      		that.$http.post(url,data,{emulateJSON:true}).then(
+		      			function (res){
+		      				if(!res.data.ret){
+		      					console.log(res.data);
+		      					let refId= res.data.refId
+		     	 			 router.push({path: '/GoodsReturn',query:{"refId":refId,"orderId":that.$route.query.orderId}})
+
+		      				}
+							else{
+								that.$toast(res.data.descript)
+
+							}
+		      			}
+		      		)
+	    	}
+		}
+	},
+	components: {
+		uploader
+	}
+}
+</script>
+<style>
+	.AFR_content>li{margin-bottom:8px;background: #fff;}
+	.AFR_btn{padding:14px 0;}
+	.AFR_content .OL_title,.AFR_content_bot{width: 96%;margin:0 auto;}
+	.AFR_content .OL_title{border-bottom:1px solid #E1E1E1;} 
+	.AFR_btn>li{height: 35px;line-height:35px;padding:0 20px;font-size: 0.75rem;width: inherit;display: inline-block;    margin-right: 9px;    margin-bottom: 9px;}
+	.AFR_content_bot{padding-bottom:14px;}
+	.Refund_Explain{    width: 98%;
+    background: #E5E5E5;
+    height: 80px;
+    margin: 14px auto 0 auto;
+    font-size:  0.9rem;
+    display: block;
+	resize:none;
+line-height: 20px;
+    box-sizing: border-box;
+    border-width: 0px;
+    outline: none;
+padding: 4px;}
+.uploader{    width: 96%;    margin: 0 auto;}
+
+.SP_btn.disabled{
+	background-color: #ddd
+}
+</style>

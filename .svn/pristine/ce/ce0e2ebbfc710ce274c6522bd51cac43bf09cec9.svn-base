@@ -1,0 +1,16 @@
+OnlineOrder	点餐页
+PersonalCenter  个人中心
+Orderdetail_pay 点餐订单详情-餐厅扫码后展示
+Orderdetail_goods 点餐订单详情-待收货
+MealCard 	我的饭卡
+
+OrderedFoodList----点餐订单
+OrderedFoodSuccess---点餐成功
+
+ScenePay---现场支付
+
+InformationModifine --信息修改
+
+
+//商城页面
+MallList--商城列表

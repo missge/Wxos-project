@@ -1,0 +1,149 @@
+/**
+ * Eric Meyer's Reset CSS v2.0 (http://meyerweb.com/eric/tools/css/reset/)
+ * http://cssreset.com
+ */
+.Fontsize>div{margin:5px 0;}
+.font20{font-size: 1rem;}
+.font19{font-size: 0.95rem;}
+.font18{font-size: 0.9rem;}
+.font16{font-size: 0.8rem;}
+.font14{font-size: 0.7rem;}
+.font12{font-size: 0.6rem;}
+.font10{font-size: 0.5rem;}
+.font11{font-size: 0.55rem;}
+.font13{font-size: 0.65rem;}
+.font15{font-size: 0.75rem;}
+.font17{font-size: 0.85rem;}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, menu, nav, output, ruby, section, summary, time, mark, audio, video, input {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  // font-size: 100%;
+  font-weight: normal;
+  vertical-align: baseline;
+}
+body{font-family:STXihei, "华文细黑", "Microsoft YaHei", Arial, "微软雅黑";}
+.divider {
+  height: 16px;
+  width: 100%;
+  background: #f3f5f7;
+  border-top: 1px solid rgba(7, 17, 27, 0.1);
+  border-bottom: 1px solid rgba(7, 17, 27, 0.1);
+}
+
+html{
+  // font-size:20px;
+  font-size:125%;
+}
+/* HTML5 display-role reset for older browsers */
+
+article, aside, details, figcaption, figure, footer, header, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+
+/* custom */
+
+a {
+  color: #7e8c8d;
+  text-decoration: none;
+  -webkit-backface-visibility: hidden;
+}
+
+li {
+  list-style: none;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+  height: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  -webkit-border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+  width: 5px;
+  background-color: rgba(125, 125, 125, 0.7);
+  -webkit-border-radius: 6px;
+}
+
+html, body {
+  width: 100%;
+}
+
+body {
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+.clear{
+  overflow: hidden;
+}
+.lf{
+  float:left;
+}
+.rt{
+  float:right;
+}
+.mar_top{
+  margin-top:8px; 
+  background: #fff;
+}
+.show{
+  display: block;
+}
+.title_bor{
+    width: 96%;
+    margin:0 auto;
+    border-bottom:1px solid #D8D8D8;
+}
+.btn_blue,.btn_gray{
+    display: inline-block;
+    color: #fff;
+    width: 65px;
+    height: 25px;
+    font-size: 0.65rem;
+    line-height: 23px;
+    text-align: center;
+}
+.btn_blue{
+  background: #3275BB;
+}
+.btn_gray{
+  background: #959595;
+}
+.mar_top_bot{
+  border:none;
+}
+ .blue_font{
+    color:#1A62B2;
+  }
+  .width_auto{
+    width: 96%;
+    margin: 0 auto;
+  }

@@ -1,0 +1,48 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin"
+    },
+    {
+      "id": 2,
+      "username": "aaa",
+      "password": "aaa"
+    },
+    {
+      "id": 3,
+      "username": "bbb",
+      "password": "bbb"
+    },
+    {
+      "id": 4,
+      "username": "ccc",
+      "password": "ccc"
+    },
+    {
+      "username": "aaaa",
+      "password": "aaaa",
+      "id": 5
+    },
+    {
+      "username": "1",
+      "password": "1",
+      "id": 6
+    }
+  ],
+  "Info":[
+	{
+		"id":1,
+		"phone":"1",
+		"openId":"1",
+		"flag": 1
+	},
+	{
+		"id":2,
+		"phone":"2",
+		"openId":"1",
+		"flag": 0
+	}
+  ]
+}

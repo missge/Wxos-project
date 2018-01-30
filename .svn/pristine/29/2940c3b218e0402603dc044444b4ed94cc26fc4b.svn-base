@@ -1,0 +1,12 @@
+
+插件安装：npm install
+
+axios安装：npm install axios --save-dev
+
+mock数据：npm i json-server -g
+
+创建mock-data.json文件
+
+启动模拟数据服务：json-server mock-data.json
+
+http://localhost:8000/?openId=111111&mobile=13552615118&merid=000000010000007&flag=1#

@@ -1,0 +1,255 @@
+<template>
+	<div class="GoodsReturn">
+		<div class="ODP_header GoodsReturn_header">
+			<img src="../assets/img/pay_icon.png" width="100px" height="100px">
+			<p  class="ODP_title">提交成功</p>
+			<div class="ODP_code_prompt">
+				24小时内客服将会与您联系，<br/>请保持手机畅通，退换成功后资金将退回您原来的账户
+			</div>
+		</div>
+		<div class="GR_timeaxis ODP_header">
+			<div class="GR_timeaxis_box">
+				<ul >
+					<li class="old_border" :class="{finish: item.operTime != ''}" v-for="item in datalist.ordersRecs">
+						<i class="GR_icon"></i>
+						<div class="GR_title" v-if='item.status==8'>
+							拒绝退款
+						</div>
+						<div class="GR_title" v-if='item.status==7'>
+							申请退款
+						</div>
+						<div class="GR_title" v-if='item.status==9'>
+							商家确认
+						</div>
+						<div class="GR_title" v-if='item.status==10'>
+							商品回寄
+						</div>
+						<div class="GR_title" v-if='item.status==12'>
+							商家签收
+							<!-- <span class="gray_fonts" @click="GoAddReturnFn"></span> -->
+						</div>
+						<div class="GR_title" v-if='item.status==13'>
+							退款完成
+						</div>
+						<div class="GR_title" v-if='item.status==14'>
+							商城退款
+						</div>
+						<div class="GR_title" v-if='item.status==11'>
+							取消退款
+						</div>
+						<span class="gray_fonts" v-if='item.status==9&&datalist.wailType==0'>
+							{{item.operTime}}
+						</span>
+						<span class="gray_fonts" v-if='item.status==8||item.status==7 ||item.status==14 ||item.status==10 || item.status==13 || item.status==12|| item.status==11 '>
+							{{item.operTime}}
+						</span>
+						<div class="write_number" v-if='item.status==9 &&datalist.wailType==1'  @click="GoAddReturnFn">填写运单号</div>
+					</li>
+					<!-- <li class="old_border">
+						<i class="GR_icon"></i>
+						<div class="GR_title">
+							商家确认
+						</div>
+						<span class="gray_fonts">
+							 2017-09-12 0:00000 
+						</span>
+					</li> -->
+					 <!-- <li class="old_border">
+						<i class="GR_icon"></i>
+						<div class="GR_title">
+							商品回寄
+						</div>
+						<span class="gray_fonts" @click="GoAddReturnFn">
+							<span class="write_number">填写运单号</span>
+						</span>
+					</li>
+					<li class="old_border">
+						<i class="GR_icon"></i>
+						<div class="GR_title">
+							卖家确认收货
+						</div>
+						<span class="gray_fonts">
+							2017-09-12 0:00000
+						</span>
+					</li>
+					<li class="old_border finish">
+						<i class="GR_icon"></i>
+						<div class="GR_title">
+							退款成功
+						</div>
+						<span class="gray_fonts">
+							2017-09-12 0:00000
+						</span>
+					</li> --> 
+				</ul>
+			</div>
+		</div>
+		<div class="GoodsReturn_bottom ">
+			<ul>
+				<li v-if="refuseStatus==11">
+					<div class="GoodsReturn_bottomlf" >
+						拒绝原因：
+					</div>
+					<div class="GoodsReturn_bottomrt" >
+						{{datalist.refuseReason}}
+					</div>
+				</li>
+				<li >
+					<div class="GoodsReturn_bottomlf">
+						申请时间：
+					</div>
+					<div class="GoodsReturn_bottomrt">
+						{{datalist.refundTime}}
+					</div>
+				</li>
+				<li>
+					<div class="GoodsReturn_bottomlf">
+						收货类型:
+					</div>
+					<div class="GoodsReturn_bottomrt">
+						{{datalist.isTakeGoods}}
+
+					</div>
+				</li>
+				<li>
+					<div class="GoodsReturn_bottomlf">
+						退货原因
+					</div>
+					<div class="GoodsReturn_bottomrt">
+						{{datalist.reMoReason}}
+						
+					</div>
+				</li>
+				<li class="returnPolicy">
+					<div class="GoodsReturn_bottomlf">
+						退货说明：
+					</div>
+					<div class="GoodsReturn_bottomrt">
+						{{datalist.reMoDesc}}
+					</div>
+				</li>
+				<li>
+					<div class="GoodsReturn_bottomlf">
+						商品图片:
+					</div>
+					<ul class="GoodsReturn_bottomrt GR_goods_img">
+						<li  v-for="items in datalist.images">
+							<img :src="items.image" width="100%" height="90%">
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</div>
+</template>
+<script>
+	import {setCookie,getCookie} from './../cookie/cookie.js'
+	import qs from 'qs'
+	import Vue from 'vue'
+	import {Loadmore} from 'mint-ui'
+	import router from '@/router'
+export default{
+	name:'GoodsReturn',
+	data(){
+		return{
+				datalist:[],
+				OrderInfo :{
+		 			mallId:getCookie('mallId'),
+	      			orderId:this.$route.query.orderId,
+	      			refId:this.$route.query.refId,
+	      		},
+	      		refuseStatus:this.$route.query.refuseStatus
+	    }
+	},
+	methods:{
+		searchOrder(){
+				// debugger
+	      		var url = this.$store.state.localHostUrl +'/getRefundAuditInfo.json'
+	      		var data= qs.stringify(this.OrderInfo)
+	      		var that = this
+	      		that.$http.post(url,data,{emulateJSON:true}).then(
+	      			function (res){
+	      				if(!res.data.ret){
+	      					that.datalist=res.data
+	      					console.log(that.datalist)
+
+	      				}
+						else{
+							that.$toast(res.data.descript)
+
+						}
+	      			}
+	      		)
+	      },
+	    GoAddReturnFn(){
+			this.$router.push({path:'/AddReturn',query:{refId:this.$route.query.refId,orderId:this.$route.query.orderId}})
+	    }
+	},
+	mounted(){
+		this.searchOrder()
+	}
+}
+</script>
+<style>
+	.GoodsReturn_header{margin-top:0;  position: relative;}
+	.GoodsReturn_header>.ODP_code_prompt{line-height:15px;padding-bottom: 24px;font-size: 0.7rem;color:#959595;}
+	.GR_timeaxis {background: #fff;}
+	.GR_timeaxis_box{width: 50%;margin:0 auto;}
+	.GR_timeaxis_box ul{padding:40px 0 0 0;}
+	.GR_timeaxis ul{    margin: 0 auto;max-width: 200px;}
+	.GR_timeaxis li{position: relative;height:48px;    margin-bottom: 10px;}
+	/*.old_border{border-left:2px solid #959595;}*/
+	.GR_timeaxis li>i{height: 24px;width:24px;display:block;position: absolute;left: -11px; top: -18px;z-index:10;}
+	.GR_oldicon{background: url("./img/old_icon.png") no-repeat center left;background-size:80%;}
+	.GR_icon{background:url("./img/return_icon.png") no-repeat center left;background-size:80%;}
+	.GR_title,.GR_timeaxis_box .gray_fonts{position: absolute;left: 16px;}
+	
+	.GR_timeaxis_box .gray_fonts{color:#959595;font-size: 0.7rem;top:5px;}
+	/*.pass_through{border-left:2px solid #F08632;}*/
+	.write_number{
+		    display: inline-block;
+		    height: 25px;
+		    line-height: 25px;
+		    padding: 0 8px;
+		    background: #A0A0A0;
+		    color: #fff;
+		    font-size: 0.6rem;
+		    border-radius: 5px;
+		    margin-top: -67p;
+		    position: absolute;
+		    left: 16px;
+		    top: 10px;
+	}
+	/*.ystep-progress{position: absolute;top:0;left: 12px;}*/
+	.GoodsReturn_bottom {background: #fff;margin-bottom:10px;}
+	.GoodsReturn_bottom>ul{width: 96%;margin:0 auto;}
+	.GoodsReturn_bottom>ul>li{border-bottom:1px solid #DCDCDC;display: flex;height: 40px;line-height: 40px;}
+	.GoodsReturn_bottom>ul>li:last-child{height:auto;line-height:auto;}
+	.GoodsReturn_bottomlf{flex: 0 0 90px;width: 90px;font-size: 0.75rem;}
+	.GoodsReturn_bottomrt{flex: 1;font-size: 0.75rem;padding-left: 3px;    overflow: hidden;}
+	.GR_goods_img{padding-top:10px;display: flex;}
+	.GR_goods_img li{width: 58px; height: 58px;    margin-bottom: 20px;margin-right: 22px;}
+	.GR_goods_img li img{padding:5px;
+		border:1px solid #2F2F2F;
+	}
+	.GR_timeaxis li + li:after{
+		content: " ";
+	    width: 2px;
+	    height: 50px;
+	    background: #F08632;
+	    position: absolute;
+	    left: -3px;
+	    top: -55px;
+	}
+	.old_border:last-child .GR_icon{
+		background-image: url("./img/old_icon.png")
+	}
+
+	.old_border.finish .GR_icon{
+		background-image: url("./img/return_icon.png")
+	}
+	.GoodsReturn_bottom>ul>li.returnPolicy{
+		    height: auto;
+	}
+
+</style>
