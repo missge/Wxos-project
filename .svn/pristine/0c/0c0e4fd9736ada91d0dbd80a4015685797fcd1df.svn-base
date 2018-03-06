@@ -634,6 +634,7 @@ export default{
 .DP_shopCard_lf{flex: 0 0 1; width: 110px;display: flex;}
 .DP_shopCard_rt{flex: 1;display: flex;}
 .DP_shopping,.DP_buy{font-size: 0.75rem;color:#fff; font-weight: bold;line-height: 44px;}
+
 .DP_shop_one,.DP_shop_two{flex:1;text-align: center;position: relative;}
 .DP_shop_two>p,.DP_shop_one>p{font-size: 0.65rem;color:#959595;}
 .DP_shop_two>img,.DP_shop_one>img{margin-top:5px ;}
