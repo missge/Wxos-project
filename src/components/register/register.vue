@@ -270,8 +270,14 @@ export default {
         //商城
            //  0：用户未注册  // 1：用户己注册  // -1：失败：查询错误    // -2：失败：会员己注册，但手机号为空
            this.$store.state.mallId = this.getUrlKey('mallId')
+         let urlTo = decodeURIComponent(this.getUrlKey('urlTo'))
            setCookie('mallId', this.$store.state.mallId,1000*60)
             if( this.$store.state.flag == 1){
+                 if(urlTo=='NULL' || urlTo=='undefined' || urlTo==''){
+                    this.$router.push('/Ehome')
+                  }else{
+                    window.location.href=urlTo
+                  }
                   this.$store.state.merId = this.getUrlKey('merId')
                     this.$store.state.wxName = this.getUrlKey('wxName')
                   setCookie('wxName', this.$store.state.wxName,1000*60)
@@ -280,10 +286,11 @@ export default {
                   // this.$store.state.mobile = this.getUrlKey('mobile')
                   // setCookie('mobile', this.$store.state.mobile,1000*60)
                   setCookie('merId', this.$store.state.merId,1000*60)
-                  this.$router.push('/Ehome')
             }else{
                 this.$router.push('/')
             }
+
+
        }else if(method==4 ){
         //外部链接访问
            this.$store.state.mallId = this.getUrlKey('mallId')

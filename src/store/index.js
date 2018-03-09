@@ -9,8 +9,8 @@ import qs from 'qs'
 import {setCookie,getCookie} from '../cookie/cookie.js'
 import { Indicator } from 'mint-ui';
 Vue.use(Vuex)
-  var localhostStr='http://zhht.dealreal.com.cn'
-   // var localhostStr='http://wcy.dealreal.com.cn'
+    var localhostStr='http://zhht.dealreal.com.cn'
+ // var localhostStr='http://wcy.dealreal.com.cn'
   // var localhostStr='http://10.0.0.2:8080/wxmanage'
  // var localhostStr='http://10.0.0.5:8080/wxmanage'
 let closeFlag=-1
@@ -30,6 +30,7 @@ const store = new Vuex.Store({
 		merchantName:getCookie('merchantName'),
 		localHostUrl: localhostStr,
 		closeFlag:closeFlag,
+		urlTo:'',
 		// imgUrl:imgUrl,
 		// 获取卡包
 		CardInfo:{
