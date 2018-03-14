@@ -55,7 +55,7 @@
 						<div class="Online_price"><img class="ml4" width="10px" height="10px" src="../../assets/img/ml4.png"/>{{food.price}} <span>({{food.count}}份)</span></div>
 					</div>
 				</div>
-				<div class="Online_content-right" @click="ChooseOk()">
+				<div class="Online_content-right width_btn" @click="ChooseOk()">
 					<span>选好了</span>
 				</div>
 			</div>
@@ -282,6 +282,6 @@
 	}
 </script>
 
-<style scoped>
-	
+<style>
+	.width_btn{width:90px;}
 </style>

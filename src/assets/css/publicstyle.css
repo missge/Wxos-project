@@ -187,14 +187,16 @@ body{  background: #F7F7F7;}
     z-index: 50;
 }
 .Online_content {
-    display: -ms-flexbox;
-    display: flex;
+    // display: -ms-flexbox;
+    // display: flex;
     background: #D8D8D8;
+    overflow:hidden;
 }
 .Online_content-left{
-  -ms-flex: 1;
-    flex: 1;
+  // -ms-flex: 1;
+    // flex: 1;
     height: 50px;
+    float: left;
 }
 
 

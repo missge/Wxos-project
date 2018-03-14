@@ -20,7 +20,6 @@
 					<span class="jt_bg">
 						<img src="./img/jt_icon.png"  width="10px" height="15px">
 					</span>
-
 				</div>
 				<img src="./img/Address.png" width="100%" height="7px">
 			</div>

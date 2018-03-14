@@ -19,6 +19,7 @@ import orderMessage  from '@/components/orderMessage/orderMessage'
 import noCardNew  from '@/components/noCard/noCardNew'
 import noCard  from '@/components/noCard/noCard'
 import error  from '@/components/noCard/error'
+import noCompany from '@/components/noCard/noCompany'
 import Nothing from '@/components/noCard/Nothing'
 import test from '@/components/test'
 import MallList from '@/Ecommerce/MallList'
@@ -44,7 +45,6 @@ import RefundingDetaile from '@/Ecommerce/RefundingDetaile'
 import footer from '@/Ecommerce/footer'
 import Search from '@/Ecommerce/Search'
 import imageUploader from '@/Ecommerce/imageUploader'
-
 
 
 Vue.use(Router)
@@ -317,6 +317,12 @@ const router =  new Router({
       component: Nothing,
        meta:{
         title:'暂无'
+      }
+    },{
+      path: '/noCompany',
+      component: noCompany,
+       meta:{
+        title:'无企业'
       }
     }
   ]

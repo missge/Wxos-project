@@ -73,6 +73,7 @@
     line-height: 48px;
     text-align: center;
         border: none;
+    float: right;
 }
 
 .mint-radio-input:checked + .mint-radio-core {
