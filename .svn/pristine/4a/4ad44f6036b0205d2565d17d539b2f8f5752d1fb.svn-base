@@ -101,10 +101,7 @@ export default{
       		clicked:'CategoryPage',
      		getUrl:getCookie('getUrl'),
       		returnFlag:false,
-      		clickFamilyId:0,
-      		foodsScroll:'',
-      		menuWrapper:''
-
+      		clickFamilyId:0
 		}
 	},
 	created() {
@@ -125,10 +122,10 @@ export default{
 			this.menuWrapper = new BScroll(this.$refs.menuWrapper, {
 			    click: true
 			});
-			// this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-			//     click: true,
-			//     // probeType: 3
-			// });
+			  this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
+			    click: true,
+			    // probeType: 3
+			  });
 	 		/* this.foodsScroll.on('scrollStart', () => {
 				    this.scrollFlag = true;
 			 });
@@ -136,12 +133,6 @@ export default{
 			this.foodsScroll.on('scroll', (pos) => {
 			    this.foodsScrollY = Math.abs(Math.round(pos.y+60))
 		 	})*/
-		},
-		_initRightScroll() {
-			this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-			    click: true,
-			  
-			});
 		},
     	dataLoad(){
 			this.OrderInfo.familyId=''
@@ -200,6 +191,7 @@ export default{
       				}
 					else{
 						Indicator.close('Loading...');
+
 					}
 	      		}
 	      	)
@@ -208,9 +200,7 @@ export default{
 			this.$route.query.familyId=this.datalist[i]
 	    	this.on=i
 	    	this.firstDatalist=this.datalist[i]
-	    	this.$nextTick(() => {
-			 	this._initRightScroll(); 
-			})
+	    	
 	    },
 		GoMallList(familyId){
 			let vm=this
