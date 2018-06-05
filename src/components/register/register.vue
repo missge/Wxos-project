@@ -7,14 +7,23 @@
               <img src="./img/logo.png"  width="136px">
           </div>
           <form>
+             <div class="reg_phone">
+              <span class="reg_icon_userName"></span>
+              <input class="" type="" name=""  maxlength="12"  v-model="Info.userName" placeholder="请输入姓名">
+            </div>
+             <div class="reg_phone">
+              <span class="reg_icon_jobId"></span>
+              <input class="" type="" name=""  maxlength="12"  v-model="Info.jobId" placeholder="请输入工号">
+            </div>
             <div class="reg_phone">
               <span class="reg_icon_phone"></span>
               <input class="" type="" name=""  maxlength="12" @keyup="filterNumber" @afterpaste="filterNumber"  v-model="Info.phone" placeholder="请输入手机号">
             </div>
+           
             <div class="reg_phone reg_code_box">
               <div class="reg_code">
                 <span class="reg_icon_code"></span>
-                <input type="" name="" maxlength="6" @keyup="filterNumber" @afterpaste="filterNumber" v-model="Info.code"placeholder="验证码">
+                <input type="" name="" maxlength="6" @keyup="filterNumber" @afterpaste="filterNumber" v-model="Info.code" placeholder="验证码">
               </div>
               <div>
                 <span class="reg_getcode" v-if="sendMsgDisabled">{{time+'秒后获取'}}</span>
@@ -43,22 +52,25 @@ export default {
       Info:{
           phone:'',
           code:'',
+          mallId:getCookie('mallId'),
+          userName:'',
+          jobId:''
           // openId:'1'
       },
       sendMsgDisabled:false,
       time:60,
-      regInfo:{
+      // Info:{
          // openId:'',
-          mallId:'',
+        
           // mobile:''
-      }
+      // }
 
     }
   },
    methods: {
     filterNumber(){
          this.Info.phone=this.Info.phone.replace(/\D/g,'')
-      this.Info.code=this.Info.code.replace(/\D/g,'')
+        this.Info.code=this.Info.code.replace(/\D/g,'')
     },
     send(){
        var url=this.$store.state.localHostUrl+'/sendSMSCode.json'
@@ -97,9 +109,12 @@ export default {
       },
     loginFn:function(){
         var url=this.$store.state.localHostUrl+'/checkSMSCode.json'
+        // var jobIdUrl= this.$store.state.localHostUrl+'/registerByJobId.json'
          var formData=qs.stringify({'mobile':this.Info.phone,'code':this.Info.code})
+         var formData1=qs.stringify({'mobile':this.Info.phone,'mallId':getCookie('mallId'),'userName':this.Info.userName,'jobId':this.Info.jobId})
          var checkPhone=/^1[34578]\d{9}$/
           var checkCode=/^\d{6}$/
+          
          if(this.Info.phone == '' ){
           this.$toast("请输入手机号")
           return false
@@ -115,52 +130,52 @@ export default {
           if(!(checkCode.test(this.Info.code))){ 
             this.$toast("验证码必须为6位数字") 
             return false
-          } else{
+          }else{
+           
               var that = this
              that.$http.post(url,formData,{emulateJSON: true}).then(
               function(res){
-                 // that.regInfo.openId=getCookie('openId')
-                that.regInfo.mallId=getCookie('mallId')
-                that.regInfo.mobile=that.Info.phone
-                let url=that.$store.state.localHostUrl+'/register.json'
-                let formDate1=qs.stringify(that.regInfo)
-                console.log(res.data)
+                 // that.Info.openId=getCookie('openId')
+                that.Info.mallId=getCookie('mallId')
+                // that.Info.mobile=that.Info.phone
+                var isjobIdUrl=''
+                if(that.Info.jobId == ''){
+                   isjobIdUrl=that.$store.state.localHostUrl+'/register.json'
+                }else{
+                   isjobIdUrl=that.$store.state.localHostUrl+'/registerByJobId.json'
+                }
                 if(!res.data.ret){
-                    that.$http.post(url,formDate1,{emulateJSON: true}).then(
+                    that.$http.post(isjobIdUrl,formData1,{emulateJSON: true}).then(
                       function(res){
-                        console.log(res.data.ret)
                          if(res.data.ret==0){
                             var merId=res.data.merId
                              var mobile=res.data.mobile
                              // setCookie('mobile',mobile,1000*60)
                               setCookie('merId',merId,1000*60)
-                              if(merId=="NULL"){
-                                // that.$router.push({path:'/noCard',query:{flag:'0'}})
-                                that.$router.push({path:'/noCardNew'})
 
+                              var method=that.$store.state.method 
+                              if(method==0){
+                                  that.$store.state.merId = res.data.merId
+                                  // that.$store.state.mobile = res.data.mobile
+                                  // setCookie('mobile', res.data.mobile,1000*60)
+                                  setCookie('merId', res.data.merId,1000*60)
+                                  if(that.$store.state.merId=='NULL'){
+                                      // that.$router.push({path:'/noCard',query:{flag:'0'}})
+                                      that.$router.push({path:'/noCardNew'})
+                
+                                  }else{
+                                      that.$router.push('/Home')
+                                  }
+
+
+                              }else if(method ==2){
+                                //个人中心
+                                    that.$router.push('/PersonalCenter')
+                              }else if(method ==3){
+                                //商城页面
+                                    that.$router.push('/Ehome')
                               }
-                             else{
-                                var method=that.$store.state.method 
-                                if(method==0){
-                                    that.$store.state.merId = res.data.merId
-                                    // that.$store.state.mobile = res.data.mobile
-                                    // setCookie('mobile', res.data.mobile,1000*60)
-                                    setCookie('merId', res.data.merId,1000*60)
-                                    if(that.$store.state.merId=='NULL'){
-                                       // that.$router.push({path:'/noCard',query:{flag:'0'}})
-                                        that.$router.push({path:'/noCardNew'})
-
-                                    }else{
-                                        that.$router.push('/Home')
-                                    }
-
-
-                                }else if(method ==2){
-                                     that.$router.push('/PersonalCenter')
-                                }else if(method ==3){
-                                     that.$router.push('/Ehome')
-                                }
-                             }
+                             
                           }
                           else if (res.data.ret==-4){
                               that.$router.push({path:'/noCard',query:{flag:-6}})
@@ -168,7 +183,10 @@ export default {
                           else if (res.data.ret==-2){
                               that.$toast("您已注册过。")
                               that.$router.push({path:'/PersonalCenter'})
-                          }else{
+                          }else if(res.data.ret==999){//工号不存在
+                              that.$toast("工号错误哦，请检查...")
+                          }
+                          else{
                                // that.$router.push({path:'/noCard',query:{flag:0}})
                                 that.$router.push({path:'/noCardNew'})
 
@@ -183,7 +201,7 @@ export default {
               }
 
             )
-          }
+          } 
     },
     setParameter(){
       // this.$store.state.openId = this.getUrlKey('openId')
@@ -266,15 +284,16 @@ export default {
                 // this.$router.push('/')
                 that.$router.push({path:'/error',query:{flag:'0'}})
             }
-       }else if(method==3 ){
+        }else if(method==3 ){
+        
         //商城
            //  0：用户未注册  // 1：用户己注册  // -1：失败：查询错误    // -2：失败：会员己注册，但手机号为空
            this.$store.state.mallId = this.getUrlKey('mallId')
           let urlTo = decodeURIComponent(this.getUrlKey('urlTo'))
-           
-
            setCookie('mallId', this.$store.state.mallId,1000*60)
+            
               if( this.$store.state.flag == 1){
+                //无企业
                let isCompanyOK = this.getUrlKey('isCompanyOK')
                console.log('isCompanyOK-------'+isCompanyOK)
                  if(isCompanyOK==1 ){
@@ -378,7 +397,7 @@ export default {
   width: 80%;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.7);
-  top: 40%;
+  top: 49%;
       z-index: 10;
 }
 .reg_table{
@@ -394,7 +413,7 @@ export default {
   border: 1px solid #DBDBDB;
    margin-bottom: 0.65rem;
 }
-.reg_icon_code,.reg_icon_phone{
+.reg_icon_code,.reg_icon_phone,.reg_icon_userName,.reg_icon_jobId{
       /* width: 20px; */
     height: 27px;
     position: absolute;
@@ -411,7 +430,15 @@ export default {
     background: url("./img/pwd.png") no-repeat center center;
     background-size: 70%;
 }
-.reg_phone>input,.reg_code>input{
+.reg_icon_userName{
+      background: url("./img/userName.png") no-repeat center center;
+    background-size: 70%;
+}
+.reg_icon_jobId{
+      background: url("./img/jobId.png") no-repeat center center;
+    background-size: 70%;
+}
+.reg_phone>input,.reg_code>input,.reg_icon_userName>input,.reg_icon_jobId>input{
    background: none;
   border: none;
   width: 80%;
