@@ -211,7 +211,7 @@ export default {
       this.$store.state.method = this.getUrlKey('method')
        // setCookie('openId', this.$store.state.openId,1000*60)
        setCookie('method', this.$store.state.method,1000*60)
-      var method = this.$store.state.method 
+      var method = this.$store.state.method  
         //注册 
          if(method==0 ){
              //  0：用户未注册  // 1：用户己注册  // -1：失败：查询错误    // -2：失败：会员己注册，但手机号为空
