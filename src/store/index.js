@@ -10,9 +10,12 @@ import {setCookie,getCookie} from '../cookie/cookie.js'
 import { Indicator } from 'mint-ui';
 Vue.use(Vuex)
    // var localhostStr='http://zhht.dealreal.com.cn'
-  var localhostStr='http://wcy.dealreal.com.cn'
+//   var localhostStr='http://wcy.dealreal.com.cn'
+//   var localhostStr='http://wxcs.zhonghuihaotai.com'
   // var localhostStr='http://10.0.0.2:8080/wxmanage'
  // var localhostStr='http://10.0.0.5:8080/wxmanage'
+ var localhostStr='http://wx.zhonghuihaotai.com'
+ 
 let closeFlag=-1
 
 const store = new Vuex.Store({
