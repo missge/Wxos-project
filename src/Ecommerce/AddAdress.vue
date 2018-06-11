@@ -47,7 +47,7 @@
 	import {setCookie,getCookie} from '../cookie/cookie.js'
 	import router from '@/router'
 	import qs from 'qs'
-	import myaddress from '../assets/address3.json'
+    import myaddress from '../assets/address3.json'
 	import {Loadmore} from 'mint-ui';
 	export default{
 		name:'AddAdress',

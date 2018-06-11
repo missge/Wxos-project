@@ -92,7 +92,7 @@
 				attrvalId:this.$route.query.attrvalId
 			},
 			fileIds:'',
-			clicked:0,
+			clicked:'',
 			clicked1:1,
 			clicked2:2,
 			clickDisabled:true,
@@ -126,29 +126,34 @@
 	    confirmFn(){
 	    	 this.isShow=true
 	    	if(this.clickDisabled){
-	    	  	this.ApplyInfo.isTakeGoods = this.clicked
-	    	  	this.ApplyInfo.postAmtStatus =  this.clicked1
-         	 	this.ApplyInfo.reMoReason  =  this.clicked2
-				this.ApplyInfo.reImgId = this.fileIds 
+				if(this.clicked!=''){
+					this.ApplyInfo.isTakeGoods = this.clicked
+					this.ApplyInfo.postAmtStatus =  this.clicked1
+					this.ApplyInfo.reMoReason  =  this.clicked2
+					this.ApplyInfo.reImgId = this.fileIds 
 
-		    	var url = this.$store.state.localHostUrl +'/submitRefundInfo.json'
-		      		var data= qs.stringify(this.ApplyInfo)
-		      		var that = this
+					var url = this.$store.state.localHostUrl +'/submitRefundInfo.json'
+					var data= qs.stringify(this.ApplyInfo)
+					var that = this
 
-		      		that.$http.post(url,data,{emulateJSON:true}).then(
-		      			function (res){
-		      				if(!res.data.ret){
-		      					console.log(res.data);
-		      					let refId= res.data.refId
-		     	 			 router.push({path: '/GoodsReturn',query:{"refId":refId,"orderId":that.$route.query.orderId}})
+					that.$http.post(url,data,{emulateJSON:true}).then(
+						function (res){
+							if(!res.data.ret){
+								console.log(res.data);
+								let refId= res.data.refId
+								router.push({path: '/GoodsReturn',query:{"refId":refId,"orderId":that.$route.query.orderId}})
 
-		      				}
+							}
 							else{
 								that.$toast(res.data.descript)
 
 							}
-		      			}
-		      		)
+						}
+					)
+				}else{
+					alert("收货状态还未选择...")
+				}
+	    	
 	    	}
 		}
 	},
