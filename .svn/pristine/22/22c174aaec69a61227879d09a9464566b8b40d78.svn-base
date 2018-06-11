@@ -68,9 +68,7 @@
 				 </div>
 			</li> 
 		</ul>
-		<!--<button :disabled="isShow" class="home_pay SP_btn " v-model="ApplyInfo.reImgId" :class="{ 'disabled' : !clickDisabled }" @click="confirmFn">确认提交 </button>-->
-		<button  class="home_pay SP_btn " v-model="ApplyInfo.reImgId" :class="{ 'disabled' : !clickDisabled }" @click="confirmFn">确认提交 </button>
-		
+		<button :disabled="isShow" class="home_pay SP_btn " v-model="ApplyInfo.reImgId" :class="{ 'disabled' : !clickDisabled }" @click="confirmFn">确认提交 </button>
 	</div>
 </template>
 <script>
@@ -126,9 +124,9 @@
 	      console.log(   this.ApplyInfo.reMoReason)
 	    },
 	    confirmFn(){
-	    	//  this.isShow=true
+	    	 this.isShow=true
 	    	if(this.clickDisabled){
-				if(this.clicked===0||this.clicked===1){
+				if(this.clicked!=''){
 					this.ApplyInfo.isTakeGoods = this.clicked
 					this.ApplyInfo.postAmtStatus =  this.clicked1
 					this.ApplyInfo.reMoReason  =  this.clicked2
