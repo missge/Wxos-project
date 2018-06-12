@@ -75,7 +75,7 @@ export default {
     send(){
        var url=this.$store.state.localHostUrl+'/sendSMSCode.json'
        var formData=qs.stringify({'mobile':this.Info.phone,'mallId':getCookie('mallId')})
-       var checkPhone=/^1[34578]\d{9}$/
+       var checkPhone=/^1[3456789]\d{9}$/
      
        if(this.Info.phone == '' ){
         this.$toast("请输入手机号")
@@ -112,7 +112,7 @@ export default {
         // var jobIdUrl= this.$store.state.localHostUrl+'/registerByJobId.json'
          var formData=qs.stringify({'mobile':this.Info.phone,'code':this.Info.code})
          var formData1=qs.stringify({'mobile':this.Info.phone,'mallId':getCookie('mallId'),'userName':this.Info.userName,'jobId':this.Info.jobId})
-         var checkPhone=/^1[34578]\d{9}$/
+         var checkPhone=/^1[3456789]\d{9}$/
           var checkCode=/^\d{6}$/
           
          if(this.Info.phone == '' ){
